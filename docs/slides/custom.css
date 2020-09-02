@@ -1,0 +1,12 @@
+/* Shrink heading sizes */
+.reveal h1 {
+    font-size: 3em;
+}
+.reveal h2 {
+    font-size: 1.5em;
+}
+
+/* General shrink class for small text */
+.reveal .shrink {
+    font-size: 1.5rem;
+}

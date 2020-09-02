@@ -1,0 +1,305 @@
+= Network Models
+
+== Goals
+
+* Understand why we use models
+* Use the OSI seven-layer and TCP/IP to describe networks
+
+== What is a model?
+
+A simplified representation of the real thing
+
+image::airplane.jpg[]
+
+== What models do we use?
+
+* The TCP/IP model describes how the most common networking stack works 
+* The International Organization for Standards (ISO) made the OSI seven-layer
+  model *after* TCP/IP was in active use
+
+[.columns]
+== OSI
+
+[.column]
+* Know both the layer number *and* name
+* Common interview question
+* Mnemonic: "All People Seem To Need Data Processing"
+
+[.column]
+* Layer 7 Application
+* Layer 6 Presentation
+* Layer 5 Session
+* Layer 4 Transport
+* Layer 3 Network
+* Layer 2 Data Link
+* Layer 1 Physical
+
+== Layer 1 - Physical
+
+* Network Cabling: typically unshielded twisted pair (UTP)
+* Central box: hub or switch you plug in to
+* Network interface card (NIC): technically layers 1 and 2, usually placed at layer 2
+
+[.columns]
+=== UTP
+
+[.column]
+image::utp.jpg[]
+
+[.column]
+image::punch.jpg[]
+
+[.columns]
+=== Hubs and Switches
+
+[.column]
+image::hub.jpg[]
+
+[.column]
+image::switch.jpg[]
+
+=== Physical Setup
+
+image::physical.png[]
+
+=== Layers So Far
+
+[plantuml, layer1, svg, width=50%]
+....
+@startuml
+skinparam nodesep 10
+skinparam ranksep 20
+scale 1.0
+
+rectangle Alice {
+  rectangle "Layer 7 - Application" as a7
+  rectangle "Layer 6 - Presentation" as a6
+  rectangle "Layer 5 - Session" as a5
+  rectangle "Layer 4 - Transport" as a4
+  rectangle "Layer 3 - Network" as a3
+  rectangle "Layer 2 - Data Link" as a2
+  rectangle "Layer 1 - Physical" as a1
+}
+
+a7 -[hidden]down-> a6
+a6 -[hidden]down-> a5
+a5 -[hidden]down-> a4
+a4 -[hidden]down-> a3
+a3 -[hidden]down-> a2
+a2 -[hidden]down-> a1
+
+rectangle Bob {
+  rectangle "Layer 7 - Application" as b7
+  rectangle "Layer 6 - Presentation" as b6
+  rectangle "Layer 5 - Session" as b5
+  rectangle "Layer 4 - Transport" as b4
+  rectangle "Layer 3 - Network" as b3
+  rectangle "Layer 2 - Data Link" as b2
+  rectangle "Layer 1 - Physical" as b1
+}
+
+b7 -[hidden]down-> b6
+b6 -[hidden]down-> b5
+b5 -[hidden]down-> b4
+b4 -[hidden]down-> b3
+b3 -[hidden]down-> b2
+b2 -[hidden]down-> b1
+
+a1 - b1: \tCabling/Hubs\t\t
+@enduml
+....
+
+== Layer 2 - Data Link
+
+Most books place the NIC entirely in Layer 2 (even though it set does set
+voltages on cables)
+
+=== NICs
+
+* At layer 2 a NIC breaks data into *frames* which *encapsulate* information
+* A Media Access Control (*MAC*) address tells you where a frame is going
+* NICs have MACs (you can check yours with ipconfig)
+
+=== Ethernet Frame
+
+|===
+
+| Recipient's MAC address | Sender's MAC Address | Type | Data | FCS 
+
+|===
+
+* Ethernet is the most common wired network technology
+* Frame check sequences (FCS) are used to ensure the data is not corrupted in
+  transit
+
+=== Hubs/Switches
+
+* A hub broadcast all frames to all devices plugged in to it
+* A switch is smart and only gives frames to the port of the device it is
+  addressed to
+* A special MAC is used to broadcast to everyone FF-FF-FF-FF-FF-FF-FF
+
+=== NIC LLC vs MAC
+
+* A NIC talks to the operating system (usually via device drivers) via its
+  Logical Link Control interface
+* A NIC talks to the network via its Media Access Control (MAC) interface
+* Even individual components have further layers!
+
+=== Layers So Far
+
+[plantuml, layer2, svg, width=50%]
+....
+@startuml
+skinparam nodesep 10
+skinparam ranksep 20
+scale 1.0
+
+rectangle Alice {
+  rectangle "Layer 7 - Application" as a7
+  rectangle "Layer 6 - Presentation" as a6
+  rectangle "Layer 5 - Session" as a5
+  rectangle "Layer 4 - Transport" as a4
+  rectangle "Layer 3 - Network" as a3
+  rectangle "Layer 2 - Data Link" as a2
+  rectangle "Layer 1 - Physical" as a1
+}
+
+a7 -[hidden]down-> a6
+a6 -[hidden]down-> a5
+a5 -[hidden]down-> a4
+a4 -[hidden]down-> a3
+a3 -[hidden]down-> a2
+a2 -[hidden]down-> a1
+
+rectangle Bob {
+  rectangle "Layer 7 - Application" as b7
+  rectangle "Layer 6 - Presentation" as b6
+  rectangle "Layer 5 - Session" as b5
+  rectangle "Layer 4 - Transport" as b4
+  rectangle "Layer 3 - Network" as b3
+  rectangle "Layer 2 - Data Link" as b2
+  rectangle "Layer 1 - Physical" as b1
+}
+
+b7 -[hidden]down-> b6
+b6 -[hidden]down-> b5
+b5 -[hidden]down-> b4
+b4 -[hidden]down-> b3
+b3 -[hidden]down-> b2
+b2 -[hidden]down-> b1
+
+a1 - b1: Cabling/Hubs
+a2 - b2: \tNICs and Switches\t\t
+@enduml
+....
+
+== Layer 3 - Network
+
+* TCP/IP stands for Transmission Control Protocol / Internet Protocol.
+* They were developed together and are often lumped together
+* In layer 3 we will be talking about IP
+
+=== IP
+
+* IP allows you to build a network of networks and it is the basis of the
+  internet
+* There are simply too many computers to use MAC addresses and "one big segment"
+  for everything so we use IP addresses
+* A typical IP address looks like this: 128.235.187.44
+* IP address are unique (and we've run out of them!)
+
+=== IP Packet
+
+|===
+
+| Destination IP Address | Source IP address | Data
+
+|===
+
+=== IP Packet Inside an Ethernet Frame
+
+[cols="a"]
+[.shrink]
+|===
+
+| Recipient's MAC address
+| Sender's MAC Address
+| Type
+| Data
+!===
+
+! Destination IP Address ! Source IP Address ! Data
+
+!===
+| FCS 
+
+|===
+
+=== How IP packets travel
+
+. You type `ping 8.8.8.8` at the command prompt
+. An IP packet is made addressed to `8.8.8.8`
+. An ethernet frame is made containing your IP packet with the destination MAC
+  address of your next hop (typically a gateway)
+. The frame is pushed to the next hop who replaces the destination MAC with one
+  that will get it close and sends it to its next hop
+. This continues until you get the the network of `8.8.8.8`
+
+=== IP can travel over anything!
+
+* IP is often sent over ethernet, but it can also be encapsulated in:
+** Wifi
+** Amateur Radio Protocols
+** Telephone Protocols
+** Cable Modem Protocols
+** https://en.wikipedia.org/wiki/IP_over_Avian_Carriers[Avian Carriers?]
+
+=== Layers So Far
+
+[plantuml, layer3, svg, width=50%]
+....
+@startuml
+skinparam nodesep 10
+skinparam ranksep 20
+scale 1.0
+
+rectangle Alice {
+  rectangle "Layer 7 - Application" as a7
+  rectangle "Layer 6 - Presentation" as a6
+  rectangle "Layer 5 - Session" as a5
+  rectangle "Layer 4 - Transport" as a4
+  rectangle "Layer 3 - Network" as a3
+  rectangle "Layer 2 - Data Link" as a2
+  rectangle "Layer 1 - Physical" as a1
+}
+
+a7 -[hidden]down-> a6
+a6 -[hidden]down-> a5
+a5 -[hidden]down-> a4
+a4 -[hidden]down-> a3
+a3 -[hidden]down-> a2
+a2 -[hidden]down-> a1
+
+rectangle Bob {
+  rectangle "Layer 7 - Application" as b7
+  rectangle "Layer 6 - Presentation" as b6
+  rectangle "Layer 5 - Session" as b5
+  rectangle "Layer 4 - Transport" as b4
+  rectangle "Layer 3 - Network" as b3
+  rectangle "Layer 2 - Data Link" as b2
+  rectangle "Layer 1 - Physical" as b1
+}
+
+b7 -[hidden]down-> b6
+b6 -[hidden]down-> b5
+b5 -[hidden]down-> b4
+b4 -[hidden]down-> b3
+b3 -[hidden]down-> b2
+b2 -[hidden]down-> b1
+
+a1 - b1: Cabling/Hubs
+a2 - b2: \tNICs and Switches\t\t
+a3 - b3: IP
+@enduml
+....
