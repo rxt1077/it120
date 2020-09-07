@@ -1,0 +1,89 @@
+= Ethernet
+
+.Goals
+* Define and describe Ethernet
+* Explain early Ethernet implementations
+* Describe ways to enhance and extend Ethernet networks
+
+== History
+
+* In 1973 Xerox (yes, that Xerox) developed Ethernet based on the bus topology
+* Digital Equipment Corporation (DEC) and Intel worked together to make a
+  standard that could support 10Mbps
+* They gave this standard to IEEE (802.3 committee) making it open and
+  fostering its widespread adoption
+
+== 802.3 Standards
+
+|===
+| Standard | Speed | Cabling | Year
+
+|802.3i
+|10 Mbps
+|twisted pair
+|1990
+
+|802.3ab
+|Gigabit
+|twisted pair
+|1999 
+
+|802.3by
+|25 Gigabit
+|fiber
+|2016 
+|===
+
+== Frames
+
+[.shrink]
+* Ethernet _frames_ are sent on the _segment_
+* Frame components:
+** Preamble: 7 bytes of alternative ones and zeroes followed by a _start frame delimiter_
+** MAC addresses: _source_ and _destination_
+** Type: what is this frame carrying? (IPv4, IPv6...)
+** Data: payload
+** Pad: minimum size is 64 bytes so packets may need to be padded (not common)
+** Frame Check Sequence (FCS): cyclic redundancy check (CRC) to error checking
+
+== Early Standards
+
+* Bus Ethernet
+* 10BaseT
+** Made use of UTP, required two pair but most people installed four
+** TIA/EIA created cabling standards 568A and 568B which tell you how to connect
+   the wires
+* 10BaseFL
+** Supports longer distances by using fiber
+** a bit tougher to work with
+
+== From Hubs to Switches
+
+* Bus Ethernet used Carrier Sense Multiple Access / Collision Detection
+  (CSMA/CD)
+* Collisions were common, causing retries and slowdowns
+* Switches don't have collisions because they _learn_ the MAC addresses
+  connected to the ports
+* This means each port can have full bandwidth!
+
+=== A MAC tracking switch
+
+image::switch-mac.png[]
+
+== Connecting Segments
+
+* Switches can connect to other switches via most ports (typically auto-sensed)
+* When putting multiple segments together, loops can be a big problem
+
+=== Broadcast Storm
+
+image::loop.jpg[]
+
+=== Spanning Tree Protocol (STP)
+
+* Uses bridge protocol data unit (BPDU) frames
+* One switch is elected _root_
+* Ports are blocked to prevent loops, but still listen for BPDUs
+* If a link goes down those ports may be reactivated
+
+

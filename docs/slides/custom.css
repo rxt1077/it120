@@ -10,3 +10,13 @@
 .reveal .shrink {
     font-size: 1.5rem;
 }
+
+/* Even smaller text */
+.reveal .extra-shrink {
+    font-size: 1rem;
+}
+
+/* Give images a white background */
+.reveal section img {
+    background-color: white;
+}

@@ -1,0 +1,214 @@
+= The Physical Layer
+
+== Topologies
+
+=== Bus
+
+[plantuml, bus, svg, width=80%]
+....
+@startuml
+nwdiag {
+  network bus {
+    Computer1;
+    Computer2;
+    Computer3;
+  }
+}
+@enduml
+....
+
+* Ends probably need to be terminated
+* One wire is easy to run, but what happens if it breaks?
+
+=== Ring
+
+[plantuml, ring, svg, width=50%]
+....
+@startuml
+rectangle c1 as "Computer 1"
+rectangle c2 as "Computer 2"
+rectangle c3 as "Computer 3"
+
+c1 -- c2
+c2 - c3
+c3 -- c1
+@enduml
+....
+
+* Still one wire, but if it broke it became an unterminated bus
+
+=== Star
+
+[plantuml, star, svg, width=50%]
+....
+@startuml
+rectangle c1 as "Computer 1"
+rectangle c2 as "Computer 2"
+rectangle c3 as "Computer 3"
+rectangle c4 as "Computer 4"
+rectangle box as "Central Box"
+
+c1 -down- box
+c2 -down- box
+c3 -up- box
+c4 -up- box
+@enduml
+....
+
+* Tough for network hardware designers
+* Very resilient design
+
+[.columns]
+=== Hybrid (winner winner chicken dinner)
+
+[.column]
+image::hybrid-ring.png[]
+
+[.column]
+image::hybrid-bus.png[]
+
+[.columns]
+=== Mesh
+
+[.column]
+--
+.Full
+[plantuml, mesh, svg]
+....
+@startuml
+rectangle c1 as "Computer 1"
+rectangle c2 as "Computer 2"
+rectangle c3 as "Computer 3"
+rectangle c4 as "Computer 4"
+
+c1 -right- c2
+c1 -down- c3
+c2 -down- c4
+c3 -right- c4
+
+c1 -- c4
+c2 - c3
+@enduml
+....
+--
+
+[.column]
+--
+.Partial
+[plantuml, partial-mesh, svg]
+....
+@startuml
+rectangle c1 as "Computer 1"
+rectangle c2 as "Computer 2"
+rectangle c3 as "Computer 3"
+rectangle c4 as "Computer 4"
+
+c1 -right- c2
+c1 -down- c3
+c2 -down- c4
+c3 -right- c4
+
+c1 -- c4
+@enduml
+....
+--
+
+=== Meshes in the Real World
+
+* very resilient
+* fully meshes are rare, partial meshes are much more common
+* typically implemented wirelessly
+* Interesting examples
+** https://gotennamesh.com/products/mesh[goTenna]
+** https://www.meshtastic.org/[Meshtastic]
+
+== Cabling
+
+Many cables use copper wrapped in protective sheathing. Copper has a low
+resistance making it great for conducting electricity.
+
+[.columns]
+=== Coaxial (coax)
+
+[.column]
+image::coax.jpg[]
+
+[.column]
+[.shrink]
+* outer shielding reduces electromagnetic interference (EMI)
+* connectors can be BNC or F-Type
+* common for TV, cable internet
+* Has an RG (Radio Guide) rating: RG-59 (older, thinner), RG-6 (newer, dominant)
+* splits and couples easily
+
+=== Twisted Pair
+
+* comes in two types: shielded and unshielded
+* has a CAT rating
+* cat 6a is probably the most common right now
+
+=== CAT Ratings
+
+[.extra-shrink]
+|===
+
+| CAT 3 | 16 MHz | 16 Mbps
+
+| CAT 4 | 20 MHz | 20 Mbps
+
+| CAT 5 | 100 MHz | 100 Mbps
+
+| CAT 5e | 100 MHz | 1 Gbps
+
+| CAT 6 | 250 MHz | 10 Gbps
+
+| CAT 6a | 500 MHz | 10 Gbps
+
+| CAT 7 | 600 MHz | 10+ Gbps
+
+| CAT 7a | 1000 MHz | 40-100 Gbps
+
+| CAT 8 | 2000 MHz | 25-40 Gbps
+|===
+
+=== Twisted Pair Jacks
+
+* telephones use RJ-11 jacks
+* data uses RJ-45 jacks (technically 8P8C)
+
+[.columns]
+=== Fiber Optic
+
+[.column]
+image::fiber.jpg[]
+
+[.column]
+* uses a glass fiber instead of copper
+* glass fiber transmits photons instead of electrons
+* can travel long distances
+* two-number designator for core and cladding: 62.5/125
+
+=== Fiber Modes
+
+* multimode fiber (MMF): uses LEDs to send light signals. Very common for networking equipment.
+* single-mode fiber (SMF): uses lasers and can achieve huge distances and speeds.
+
+[.columns]
+=== Fiber Connectors
+
+[.column]
+image::fiber-connectors.webp[]
+
+[.column]
+* there are lots of connectors, but these are the most common
+* fiber is almost always used in pairs.
+
+[.columns]
+=== Older Cables
+
+[.column]
+image::db9-db25.jpg[]
+
+[.column]
+* serial: db-9, max speed 56Kbps
+* parallel: meant for printers, db-25, 2Mbps theoretical

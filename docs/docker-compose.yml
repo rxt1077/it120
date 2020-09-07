@@ -4,3 +4,4 @@ services:
     build: .
     volumes:
       - .:/docs
+      - ~/.ssh:/root/.ssh

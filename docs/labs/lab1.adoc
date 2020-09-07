@@ -1,0 +1,97 @@
+= Lab 1 - Getting Started with Packet Tracer
+
+== Purpose
+
+In this lab, we are going to:
+
+* Download and install Packet Tracer
+* Create a _loop_ of switches and watch STP block a port
+* Remove the loop and watch STP unblock the port
+
+== Downloading and Installing Packet Tracer
+
+Packet tracer is a free network simulation tool from Cisco that is used in their
+Cisco Academy course. You can download it without signing up for the course up
+https://www.computernetworkingnotes.com/ccna-study-guide/download-packet-tracer-for-windows-and-linux.html[this site].
+Please download and install version `7.3.1` for your operating system.
+
+For the purposes of this lab you can continue as a guest. You will not need to
+save your configuration.
+
+== Placing the switches
+
+. In the bottom, left-hand side of the screen click on `[Network Devices]`
+. In the bottom, left-hand side of the screen click on `[Switches]`
+. You will see a group of switches appear immediately to the right of your
+  cursor. They have names that may seem unintelligible at first, but they are
+  common Cisco switches: 2960, PT-Switch, PT-Empty, 356024PS, etc.
+. Click on `2960` and then click somewhere in your workspace in the middle of
+  the screen
+. Do the same thing two more times so you have three switches in your workspace
+. Congratulations you just installed three 2960 rack mount switches! Trust me,
+  the virtual switch is less heavy than
+  https://www.tritondatacomonline.com/products/cisco-catalyst-2960s-48-port-poe-switch-ws-c2960s-48lps-l[the real thing].
+
+== Wiring the switches
+
+We will be connecting these switches with straight copper. They will be able to
+configure their ports automatically, but you will have to choose an available
+port each time. Follow these steps:
+
+. Click on `[Connections]` in the bottom left-hand side of the screen. It looks
+  like a lightning bolt.
+. Select `Copper Straight-Through` from the window immediately to the right of
+  your cursor. It will look like a solid black line.
+. Click on one of your switches and select an available, regular port
+  (FastEthernet0/1 will be available at this point).
+. Click on another switch and select an available, regular port.
+. You should now see a line between the two switches.
+. Repeat these steps two more times to connect your switches in a loop.
+
+== Wait for STP
+
+After about thirty seconds the STP configuration should be complete. You will see
+the connections show green triangles where the switches are forwarding packets.
+There will be one orange circle where the port is blocked to prevent a loop.
+
+Now take a moment to answer the first few questions at the bottom of the lab.
+
+== Working with the Command Line Interface (CLI)
+
+. Click on the switch that has a blocked port and select `CLI` from the tabs
+  in the dialog.
+. Click inside the `IOS Command Line Interface` and hit Enter.
+. You should now see the `Switch>` prompt.
+. Type `show spanning-tree` and hit Enter to get more information about the SPT
+  setup on this particular switch.
+
+Now take a moment to answer the next few questions at the bottom of the lab.
+When you are done, close the switch dialog.
+
+== Removing the Loop
+
+. Hit the `DEL` key on your keyboard and notice how your cursor changes to an
+  `X`. It will now delete the next thing you click on.
+. Click on the connection (the line) between your switch with the blocked port
+  and the switch that it has a fully functioning connection with. This will be
+  the line with two green triangles.
+. Now wait up to thirty seconds for the STP protocol to detect the change and
+  adjust the topology.
+
+Now you can answer the final questions and your lab is complete.
+
+== Questions
+
+[qanda]
+What is the name of the switch in your configuration that has a blocked port?::
+    {empty}
+Why does that switch have a blocked port? Be specific.::
+    {empty}
+Which port is blocked on your switch? (it's OK to use the Interface name)::
+    {empty}
+What is the role of that port currently? What do you think that means?::
+    {empty}
+When you removed to good connection on the switch to the blocked port, what did STP do to compensate?::
+    {empty}
+Why did this change in topology occur?::
+    {empty}
