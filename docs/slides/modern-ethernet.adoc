@@ -1,0 +1,86 @@
+= Modern Ethernet
+
+* Describe the varieties of 100-megabit Ethernet
+* Discuss copper- and fiber-based Gigabit Ethernet
+* Discover and describe Ethernet varieties beyond Gigabit
+
+== 100BaseT
+
+* 100 Mbps
+* Baseband (not modulated to a different freq)
+* 100 meters between hub/switch and node
+* Up to 1024 nodes per hub/switch
+* Hybrid star-bus topology: physical star, logical bus
+* Cat 5 or better UTP/STP with RJ-45 connectors
+* Network equipment supports autonegotiation (PS: get-netadapter)
+
+== 100BaseFX
+
+* 100 Mbps
+* Baseband
+* 2 km between hub/switch and the node
+* Up to 1024 nodes per hub/switch
+* Hybrid star-bus topology: physical star, logical bus
+* Multimode fiber-optic with ST or SC connectors
+
+== Half-Duplex vs Full-Duplex
+
+* Half-duplex/Simplex is one at a time like a walkie talkie: Do you copy?
+* Full-duplex/Duplex is both at the same time like a telephone
+* Modern networks have components that support full-duplex
+
+== Gigabit Ethernet
+
+* 802.3ab standard
+* 1000BaseT (nobody says this)
+* Same old UTP/STP
+* Most common today
+
+== 802.3z: 1000BaseX
+
+* 100BaseSX
+* 100BaseLX
+
+=== 1000BaseSX
+
+* multimode fiber
+* 220 to 500 meters run length
+* commonly uses LC connectors
+* uses a 850nm LED
+
+=== 1000BaseLX
+
+** long-distance carrier: 5km maybe even up to 70km
+** commonly use SC connectors
+** uses single-mode lasers
+
+== Mixing media
+
+You can get media converters to go from...
+
+* single-mode fiber to UTP/STP
+* multimode fiber to UTP/STP
+* Fiber to coax
+* SMF to MMF
+
+[.columns]
+== Gigabit Interface Converter (GBIC)
+
+[.column]
+A modular transiever that can be swapped out in your equipment to use different
+media.
+
+[.column]
+image::gbic.jpg[]
+
+== Beyond Gigabit Ethernet
+
+* Lots of options, this is still actively developed
+* 10 Gb Ethernet: works on fiber OR copper (CAT 6/6a)
+* Common for backbone work: slow to the workstation, fast between floors
+
+=== Backbone Infrastructure
+
+image::backbone.png[width=50%]
+
+

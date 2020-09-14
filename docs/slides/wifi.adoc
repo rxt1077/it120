@@ -1,0 +1,132 @@
+= Wireless Networking
+
+== Wi-Fi Standards
+
+* Wi-Fi is the most widely adopted wireless networking type
+* Covered by 802.11, around since the 1990s
+* letters are amendments: 802.11g, 802.11ac etc.
+
+== 802.11
+
+* Hardware: wireless NIC (USB, PCI, etc.)
+* Hardware: wireless access point (WAP), usually combo devices but could just
+  function at layer 1
+* Software: most OSes have wireless setup software
+* Software: non-enterprise WAPs usually configured through browser based manager
+
+== Wireless Network Modes
+
+* Ad Hoc: peer-to-peer, decentralized, mesh topology
+* IBSS: Independent Basic Service Set
+* Infrastructure: WAPs creating a wireless local area network (WLAN)
+* BSS: Basic Service Set (one WAP)
+* ESS: Extended Service Set (multiple WAPs)
+
+== Range
+
+* Tough to predict
+* Largely dependant on devices and environmental factors
+* New building? Get a survey _before_ you start installing WAPs
+
+== BSSID, SSID, ESSID
+
+* BSSID: MAC address of the WAP you're connected to. Random for Ad-Hoc.
+* SSID: Friendly name that is typically broadcast out by a WAP (NJIT-Secure)
+* ESSID: WAPs share the same SSID and make a larger network
+
+== Frequency Usage
+
+* 2.4Ghz or 5Ghz (originally)
+* Broadcast Techniques
+** direct-sequence spread-spectrum (DSSS): diff freqs same time
+** frequency-hopping spread-spectrum (FHSS): one freq at a time, hopping
+** orthogonal frequency-division multiplexing (OFDM): modern technique,
+   commonly used
+
+== Channels
+
+* 2.4Ghz: 14 channels of 20Mhz each (US only 1-11), some overlap
+* 5.0Ghz: 40 channels
+
+== CSMA/CA
+
+* Carrier Sense Multiple Access with Collision Avoidance
+* Listen first, then send
+* Wait for acknowledgements
+* Back off a random amount if not receiving
+
+== 802.11b
+
+* First widely adopted WiFi
+* 2.4Ghz
+* DSSS
+* 11Mbps
+* 300 foot range
+
+== 802.11a
+
+* 5.0Ghz
+* OFDM
+* 54Mbps
+* 150 foot range
+
+== 802.11g
+
+* 2.4Ghz
+* OFDM
+* 54Mbps
+* 300 foot range
+
+== 802.11n
+
+* Multiple In/Multiple Out (MIMO), multiple antennas, beamforming
+* 2.4Ghz
+* OFDM
+* 100Mbps
+* 300 foot range
+
+== 802.11ac
+
+* 5Ghz
+* OFDM (QAM)
+* Up to 1Gbps
+* 300 foot range
+* Multiuser MIMO (MU-MIMO)
+
+== Wi-Fi Security
+
+* Wi-Fi Protected Setup (WPS): press button, get pin. Easy but vulnerable to attack
+* MAC filtering
+* Authentication (lots of options)
+
+=== 802.11i
+
+* Use Remote Authentication for Dial-In User Service (RADIUS) auth
+* Passwords encrypted with Extensible Authentication Protocol (EAP)
+
+=== EAP Options
+
+* EAP-PSK: Pre-shared key
+* EAP-TLS: Transport Layer Security to the RADIUS server
+* EAP-TTLS: Tunneled TLS (only one certificate)
+* EAP-MS-CHAPv2: uses special encrypted password function in TLS tunnel. Very
+  common.
+* EAP-MD5: Uses MD5 hashes, weak.
+* LEAP (lightweight EAP): proprietary Cisco auth
+* EAP-FAST: Cisco's latest
+
+=== 802.1X
+
+* Data encryption
+* Wired Equivalency Privacy (WEP): outdated and cracked
+* Wi-Fi Protected Access (WPA): added an extra layer of security around WEP
+* WPA2: still susceptible to attacks with WPA-Personal and WPA2-Personal pass
+  phrases. WPA2-Enterprise is best option currently.
+
+== Enterprise WiFi
+
+* Utilizes a WAP controller to push out updates/track usage
+* RADIUS for authentication
+* VLANs to separate users
+* Power over Ethernet (PoE) to power WAPs
+* Use those UTP/STP runs!
