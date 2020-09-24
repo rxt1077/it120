@@ -1,0 +1,56 @@
+= TCP/IP Layers
+
+== Historical/Conceptual
+
+* Players: Microsoft, Apple, Novell, UNIX Devs (AT&T)
+* incompatible networks
+* needed a network of networks with common protocols
+* TCP/IP won
+
+== TCP/IP Protocols
+
+* best defined with the TCP/IP model (Chapter 1)
+** Application
+** Transport
+** Internet
+** Link
+* TCP/IP is the top three
+
+== Internet layer
+
+* Mostly IP
+** IPv4 addresses: dotted decimal notation - 128.235.176.1
+** IPv4 addresses: hex - 2001:0:4137:9e76:43e:2599:3f57:fe9a
+* Also
+** ICMP
+
+=== IP Header
+
+* Version
+* Header Length
+* Differentiated sercices code point (ToS)
+* Time to live (TTL)
+* Protocol
+
+== Transport Layer
+
+* Mostly TCP
+* TCP creates connections using a three-way handshake
+** SYN?
+** SYN-ACK!
+** ACK!
+* Also breaks data into segments
+** Uses seq and ack numbers to keep track
+
+=== UDP
+
+* uses datagrams
+* does not set up connections
+* not reliable, but fast!
+
+== Application Layer
+
+* HTTP
+* SMTP
+* FTP
+* ...
