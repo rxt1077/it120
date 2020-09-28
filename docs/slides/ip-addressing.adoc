@@ -1,0 +1,58 @@
+= IP Addressing
+
+== Ethernet
+
+* Ethernet uses MAC addresses: 04-00-3F-12-B6-45
+* IP uses IP addresses: 192.168.32.2
+* An Ethernet _frame_ encapsulates an IP _packet_
+
+== ARP
+
+* Address Resolution Protocol
+* Who has x, please tell y
+* Broadcast to everyone on the segment
+* Answers are trusted (sucker)
+* Check your ARP cache: `arp -a`
+
+== IP Addresses
+
+* IPv4: 32-bit value (can be written in binary)
+* IDs network _and_ host
+* typically written in dotted decimal
+* 128.235.176.1 - NJIT network (128.235), Host on NJIT network (176.1)
+* Check your IP address: `ipconfig /all`
+
+== Network IDs
+
+image::netid.png[]
+
+* Network ID is 202.120.10.0
+
+== Routing
+
+* Each network handles its own traffic (hierarchal)
+* Got something for 128.235.0.0 (NJIT)? Send it to NJIT's router.
+* Routers keep a routing table to decide where things go
+* Check your routing table: `route PRINT`
+
+== Subnet Masks
+
+* Used in routing tables, show you which parts are the Network ID
+* Want to match the first 16 bits? 255.255.0.0 or /16
+* Want to match the first 8 bits? 255.0.0.0 or /8
+* Usually on a byte boundary, but doesn't have to be: 255.192.0.0 is /10
+
+== Class IDs
+
+* Classful addressing was used when we had big blocks
+* Class A: 1.0.0.0 - 126.255.255.255, 16 million hosts
+* Class B: 128.0.0.0 - 191.255.255.255, 65 thousand hosts
+* Class C: 192.0.0.0 - 233.255.255.255, 254 hosts
+* Class D: 224:0.0.0 - 239:255.255.255, multicast
+* Class E: 240.0.0.0 - 254.255.255.255, experimental
+
+== Multicast
+
+* broadcast: one to everybody
+* unicast: one to one
+* multicast: one to a particular group

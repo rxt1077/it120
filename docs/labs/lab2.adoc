@@ -1,0 +1,32 @@
+= Lab 2 - Analyzing Insecure Web Traffic with WireShark
+
+== Tools
+
+For this lab, you will need to download and install
+https://www.wireshark.org/[Wireshark]. Once you have it installed, download the
+packet capture file for this lab and open it via `File -> Open`. Use Wireshark
+to analyze the packets and answer the following questions.
+
+== Questions
+
+[qanda]
+What are the IP addresses of the two machines involved in this example?::
+    {empty}
+List every protocol captured (you can use the Wireshark `Protocol` field) and list where they would be classified in the TCP/IP 4-layer model.::
+    {empty}
+What is the name of the file the client tries to retrieve that causes an HTTP 404 error?::
+    {empty}
+How many TCP three-way handshakes do you see in the captured packets?::
+    {empty}
+What port number is the client connecting _from_ the first time?::
+    {empty}
+What port number is the client connecting _to_ each time?::
+    {empty}
+What is the username and password that the client uses?::
+    {empty}
+Assuming this data was captured on a hub rebroadcasting packets to every client on the segment, how could a switch help prevent this kind of information leakage?::
+    {empty}
+What else can be done to prevent leaking the username and password?::
+    {empty}
+How are the sequence number of packet 16 and the acknowledgement number of packet 17 related? Why do you think that is?::
+    {empty}
