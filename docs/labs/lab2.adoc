@@ -3,8 +3,9 @@
 == Tools
 
 For this lab, you will need to download and install
-https://www.wireshark.org/[Wireshark]. Once you have it installed, download the
-packet capture file for this lab and open it via `File -> Open`. Use Wireshark
+https://www.wireshark.org/[Wireshark]. Once you have it installed,
+https://github.com/rxt1077/it120/raw/master/docs/labs/lab2.cap[download the
+packet capture file for this lab] and open it via `File -> Open`. Use Wireshark
 to analyze the packets and answer the following questions.
 
 == Questions

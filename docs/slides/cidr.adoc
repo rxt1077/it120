@@ -1,0 +1,78 @@
+= Classless Inter-Domain Routing (CIDR) and Subnetting
+
+We're out of IPv4 IPs! How can we divy things up more efficiently?
+
+== Subnetting
+
+* taking a single class of IP addresses and chopping it up into multiple smaller
+  groups
+* Subnetting is usually done by an org while CIDR (which is pretty much
+  subnetting) is typically done by an ISP
+* You're using CIDR when you dont' stick to the class boundaries: /8, /16, /24
+* I'll pretty much always use CIDR
+
+=== Subnet Masks
+
+* by taking bits and adding them to a subnet mask, you can create more subnets
+  from your block
+* I will be using all binary to start, but eventually moving to mixed
+  binary/decimal will let you do this faster
+
+=== Example
+
+[.shrink]
+NJIT gives you a block of 128.235.132.0/24 to work with. Make four subnets
+that can support at least 60 hosts each.
+
+[.shrink]
+* How many bits are needed to represent 64 hosts?
+** `2^x - 2 >= hosts`, `2^6 - 2 = 62`, so we'll use 6 bits
+* Convert your block to binary: `10000000 11101011 10000100 00000000`
+* https://www.youtube.com/watch?v=otCpCn0l4Wo[Which bits _can't_ we touch?]
+  `[10000000 11101011 10000100] 00000000` the first 24 (in brackets) are NJITs
+* Which bits do we need for hosts? `[10000000 11101011 10000100] 00{000000}` the
+  last 6 bits (in curly brackets) will be used for our hosts
+* What's left for subnets? `[10000000 11101011 10000100] (00){000000}` 2 bits
+  (in parens)
+
+=== Example Continued
+
+So the subnets are
+
+* `10000000 11101011 10000100 00000000/26` (128.235.132.0/26)
+* `10000000 11101011 10000100 01000000/26` (128.235.132.64/26)
+* `10000000 11101011 10000100 10000000/26` (128.235.132.128/26)
+* `10000000 11101011 10000100 11000000/26` (128.235.132.192/26)
+
+=== Practice
+
+NJIT gives you a block of 128.235.136.128/25 to work with. Make two subnets
+that can support at least 62 hosts each.
+
+== CIDR notation to Subnet Masks
+
+* `/24` means you _mask off_ the first 24 bits for use as a network ID
+* to make this a traditional subnet mask, make a binary number where the first
+  24 bits are 1s
+* `11111111 11111111 11111111 00000000`
+* Converting to dotted decimal, thats: `255.255.255.0`
+
+=== Practice
+
+What would the subnet mask for 128.235.192.0/18 be?
+
+== CIDR notation to Broadcast Address
+
+The broadcast address is found by not touching any of the reserved (masked off)
+bits, and setting all the other bits to one:
+
+[.shrink]
+* What's the broadcast for 128.235.128.0/18?
+* `[10000000 11101011 10]{111111 11111111}`
+* square brackets are the bits I can't touch, everything else (curly brackets)
+  I set to one
+* In dotted decimal: 128.235.191.255
+
+=== Practice
+
+What would the broadcast address for 128.235.64.0/19 be?
