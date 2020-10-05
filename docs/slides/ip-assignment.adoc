@@ -1,0 +1,66 @@
+= IP Address Assignment
+
+== Static IP Addressing
+
+Each host has a pre-set IP address and subnet mask
+
+Best practices:
+
+. Default gateway gets the first IP address in the network ID
+. IP addresses are used in sequential order
+. Servers and clients are separate
+. Document
+
+=== Static IP Addressing Pros/Cons
+
+* Every OS has the ability to assign a static IP
+* Can be easily tested
+* It's a pain to grow the network
+
+== Dynamic IP Addressing
+
+* DHCP: Dynamic Host Configuration Protocol
+* Uses UDP on ports 67 and 68
+* DORA: Discover, Offer, Request, and Acknowledgement
+* Let's look at some packets
+
+=== Configuring DHCP
+
+* On hosts, it's typically the default
+* DHCP Servers need to know IP pools and netmask
+** For small networks this is typically done via the web interface on an
+   all-in-one device
+
+=== DHCP Relay
+
+* DHCP relies on broadcasts, this option will forward DHCP broadcasts to another
+  network
+* Think about NJIT, do you want a DHCP server for _every_ subnet?
+
+=== DHCP Reservation
+
+* Some devices need static IPs: security cameras, printers, servers, etc.
+* This can be done by having the device specify it's reservation or you could
+  use a MAC reservation to give a particular MAC the same IP address.
+
+=== Very special case: proxydhcp
+
+https://wiki.fogproject.org/wiki/index.php?title=ProxyDHCP_with_dnsmasq[Don't
+have complete access to network infrastructure? dnsmasq has you covered.]
+
+== DHCP Troubleshooting
+
+* Most common problem: No DHCP server
+* `ipconfig /release` and `ipconfig /renew`. Did you get an address?
+* Multiple DHCP Servers: failover solution
+* Rogue DHCP Server
+
+== Special IP Addresses
+
+* 127.0.0.0/8 - Loopback (127.0.0.1, Docker also uses these)
+* 10.0.0.0/8 - Private Class A
+* 172.16.0.0 - 172.31.255.255 (don't see this used often)
+* 192.168.0.0/16 - Private Class C
+
+Common problem: "We designed with 192.168.0.0/16 but need to shift to
+10.0.0.0/8"
