@@ -22,7 +22,8 @@ Best practices:
 * DHCP: Dynamic Host Configuration Protocol
 * Uses UDP on ports 67 and 68
 * DORA: Discover, Offer, Request, and Acknowledgement
-* Let's look at some packets
+* https://github.com/rxt1077/it120/raw/master/docs/slides/dhcp.pcapng[Let's
+  look at some packets]
 
 === Configuring DHCP
 

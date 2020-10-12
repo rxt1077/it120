@@ -1,0 +1,83 @@
+= TCP/IP Applications
+
+* Describe common Transport and Network layer protocols
+* Explain the power of port numbers
+* Define common TCP/IP applications such as HTTP, HTTPS, Telnet,
+  SSH, e-mail (SMTP, POP3, and IMAP4), and FTP
+
+== Background
+
+* TCP, UDP, ICMP, and IGMP run _on top of_ IP
+* Application protocols run _on top of_ those
+* Can be connection-oriented or connectionless
+* A single communication is called a session
+
+== TCP
+
+* Connection oriented
+* Uses the three-way handshake (SYN, SYN ACK, ACK)
+* Closes with: <- FIN, ACK ->, FIN ->, <- ACK
+
+== UDP
+
+* User Datagram Protocol
+* Connectionless
+* Used by DHCP
+* Network Time Protocol (NTP) and Simple Network Time Protocol (SNTP)
+* Trivial File Transfer Protocol: TFTP
+
+== ICMP
+
+* Connectionless, port-less
+* Sends single packet messages: Host unreachable, request time out
+* Used by ping (let's capture some pings)
+
+== IGMP
+
+* Internet Group Management Protocol
+* Used to notify routers that you wish to subscribe to receive packets in an
+  IGMP group
+
+== Port Numbers
+
+* Different services run on different _well-known port numbers_: 0-1023
+* _Registered Ports_ are used by less-common TCP/IP apps: 1024-49151
+* _Ephemeral Port Numbers_ are used by clients: 49152-65535
+* Let's check out the `netstat -n` command
+
+=== Connection Status
+
+* A socket that is prepared to respond to any IP packets destined for the
+  socket's port number is called and _open port_ or _listening port_.
+* _Established_ means that connection has been set up
+
+== Application Protocols
+
+=== HTTP
+
+* Hyper Text Transfer Protocol
+* Requests and responses in text
+* Network dev tools in a web browser help in exploring this
+* SSL/TLS (Secure Socket Layer/Transport Layer Security) wrap HTTP for HTTPS
+* Apache/Nginx most common
+
+=== Telnet and Secure Shell (SSH)
+
+* Provide terminal access to a machine
+* Telnet is pretty much dead, SSH is everywhere
+* Learn to work at the terminal
+* OpenSSH most common
+* Let's sign in to AFS
+
+=== E-mail
+
+* A federated collection of applications to transfer mail messages
+* Simple Mail Transport Protocol (SMTP)
+* Post Office Protocol version 3 (POP3)
+* Internet Message Access Protocol version 4 (IMAP4)
+
+=== FTP
+
+* File transfer protocol
+* Very simple, made around the same time as HTTP
+* Requires two-way connections, hence passive mode

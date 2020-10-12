@@ -1,0 +1,201 @@
+= Routing
+
+* Explain how routers work
+* Describe dynamic routing technologies
+* Know how to install and configure a router
+
+== Router
+
+* Any piece of hardware or software that forwards packets based on their
+  destination IP
+
+[.columns]
+=== Home Router
+
+[.column]
+image::linksys.jpg[]
+
+[.column]
+image::home-router.png[]
+
+[.columns]
+=== Enterprise Router
+
+[.column]
+image::cisco.webp[]
+
+[.column]
+image::enterprise-router.png[]
+
+== Routing Tables
+
+* Router strips L2 info and dumps L3 packet in a queue
+* Router matches an L3 packet to the interface it should go out on according
+  to a table
+
+=== Routing Table Example
+
+|===
+|Destination LAN/IP |Subnet Mask |Gateway |Interface
+
+|10.12.14.0
+|255.255.255.0
+|0.0.0.0
+|LAN
+
+|76.30.4.0
+|255.255.255.0
+|0.0.0.0
+|WAN
+
+|0.0.0.0
+|0.0.0.0
+|76.30.4.1
+|WAN
+|===
+
+* Where would a packet for 10.12.14.26 go?
+* How about a packet for 8.8.8.8?
+
+== Metrics
+
+* Routes have costs or metrics associated with them
+* In dynamic routing, routers determine their own metrics
+* In static routing, we determine the metrics of each route
+* What kind of data do you think could be used as a metric?
+
+== Network Address Translation (NAT)
+
+* Hides the IP address of the internal hosts but still allows them to connect
+  _through_ the router doing NAT
+* NAT is separate from routing, but is ubiquitous at this point
+
+=== How does it look?
+
+image::nat.png[]
+
+=== How does it work?
+
+* Port Address Translation: PAT
+* NAT router keeps track of connections and ports. It replaces the source IP
+  with the shared IP and uses a different source port for each connection
+* Incoming connections require Port Forwarding configured manually or with
+  https://en.wikipedia.org/wiki/Universal_Plug_and_Play[UPnP]
+* Can also use a pool of IPs with Dynamic or Pooled NAT
+
+== Dynamic Routing
+
+* Setting up a bunch of routers (ie. the Internet) by hand would be tough
+* Dynamic routing allows the routers to discover routes and adjust metrics
+* Hops are a typical metric, that is how many routers something has to go
+  through to get to its destination
+
+=== Common Metrics
+
+* Hop count
+* Bandwidth
+* Delay
+* Cost 
+
+== Distance Vector and Path Vector
+
+* Calculates the total cost to get to a particular network ID and compares it
+  to the total cost of all other routes to get there
+* Works iteratively to converge on a solution
+* Let's step through the textbook example
+
+=== Distance Vector Protocols
+
+* RIPv1
+** Oldest
+** Updates every 30 seconds
+** Big network overloads
+* RIPv2
+** Adopted 1994
+** Supports authentication
+** Variable Length Subnet Mask (VLSM) support
+
+== Border Gateway Protocol (BGP)
+
+* How the Internet routes packets
+* Autonomous Systems (AS) communicate with other AS via BGP
+* Internally you can do what you like
+* Technically a path vector protocol
+* https://blogs.akamai.com/2018/11/bgp-route-hijacking.html[BGP is impressive and terrifying]
+
+== Link State Protocols
+
+* Don't chat about the whole table, just chat about the changes
+* Save bandwidth
+
+=== Open Shortest Path First (OSPF)
+
+* Converges faster than RIP
+* Link State Advertisement packets are sent between all routers
+* Every router then knows about the _state_ of the _link_ to all other routers
+* Very popular
+
+=== IS-IS
+
+* Not popular, but an alternative
+* Supported IPv6 from the start, other than that similar to OSPF
+
+== Dynamic Routing Protocols
+
+[.shrink]
+|===
+|Protocol |Type |IGP or BGP?  |Notes
+
+|RIPv1
+|Distance vector
+|IGP
+|Old, chatty
+
+|RIPv2
+|Distance vector
+|IGP
+|VLSM support, less chatty
+
+|BGP
+|Path vector
+|BGP
+|Connects AS to form the Internet
+
+|OSPF
+|Link state
+|IGP
+|Fast, popular
+
+|IS-IS
+|Link state
+|IGP
+|Alternative to OSPF
+
+|EIGRP
+|Hybrid
+|IGP
+|Cisco proprietary
+|===
+
+== Configuring a Router
+
+=== Home Network Appliances (all-in-ones)
+
+* Typically configured via a web interface
+* You can usually hold down a reset button if you need to reset the admin
+  password
+
+=== Enterprise Routers
+
+* The infamous baby blue console cable will give you serial connection to iOS
+  (Cisco) where you can change just about anything
+* They may have an IP address you can SSH into to manage them (will need the
+  password)
+
+=== Typical Workflow
+
+. Set Up the WAN Side
+. Set Up the LAN
+. Establish Routes
+. Configure a Dynamic Protocol
+. Document and Back Up!
