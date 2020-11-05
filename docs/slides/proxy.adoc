@@ -1,0 +1,51 @@
+= Proxies
+
+== Purpose
+
+* Serve as an intermediary between client and server
+* Use cases
+** filtering traffic
+** caching traffic
+** monitoring traffic
+** security
+** ad filtering
+
+== Example
+
+[plantuml, proxy, svg]
+....
+@startuml
+Client -> Proxy : GET https://www.google.com
+Proxy -> Google : GET /
+Google -> Proxy : Web Page
+Client <- Proxy : Web Page
+@enduml
+....
+
+[.columns]
+== What can you proxy?
+
+[.column]
+* FTP
+* SSH
+* SMTP
+* POP3
+
+[.column]
+* IMAP
+* Load Balancing
+* DNS
+* Multiple Access (replacing NAT)
+
+== How is one set up?
+
+* Typically the client will need to specify that it wants to use a proxy
+* Some OS have the option to specify a system proxy that clients may use by
+  default
+* The proxy will need to be running on a machine somewhere and has to be able
+  to connect to both sides
+
+== Other Use Cases
+
+* Bypassing filters
+* Decrypting HTTPS traffic

@@ -1,0 +1,130 @@
+= Network Naming
+
+* Analyze and configure early name resolution solutions
+* Describe the function and capabilities of DNS
+
+== Background
+
+* IP addresses aren't that easy to remember
+* _Name resolution_ uses a simple name to represent a computer
+* _Domain Name System (DNS)_ is used by the internet for name resolution
+* It's not _just_ DNS, names are resolved in many different ways
+
+== NetBIOS
+
+* Early name resolution solution (still works BTW)
+* Computers broadcasted their name at boot
+* Chatty, slow, prone to errors
+* NetBIOS over TCP/IP (NetBT), used for some things
+* `netstat -a -n` look for ports 137, 138, 139, and 445
+
+== hosts
+
+* A simple file that lists an IP and it's name (also still in use)
+
+[source, text]
+----
+192.168.2.1     fred
+201.32.16.4     school2
+23.54.122.103   bobs computer and feed store
+123.21.44.16    server
+----
+
+=== Viewing and editing a hosts file
+
+* Linux: `/etc/hosts`
+* Windows: `C:\Windows\System32\drivers\etc\hosts`
+
+== DNS
+
+* Heirarchical, deligates responsibility (too big of a task otherwise)
+* Top Level Domains (TLDs): .com, .org, .net, .edu, .gov, .mil, .int (a lot more
+  now)
+* Top-Level domain servers resolve the root
+* Internet Corporation for Assigned Names and Numbers (ICANN) sets up TLDs
+
+=== Heirarchical name space
+
+* Tree structure representing all parts of a fully qualified domain name (FQDN)
+
+
+=== Name space example: people
+
+image::people.png[]
+
+=== Name space example: files
+
+image::files.png[]
+
+=== Name space example: Private DNS
+
+image::dns-name-space.png[]
+
+== Name Servers
+
+* DNS server: A DNS server is a computer running DNS server software (bind,
+  dnsmasq, etc.)
+* Zone: A zone is a container for a single domain that gets filled with
+  records.
+* Record: A record is a line in the zone data that maps a FQDN to an IP
+  address.
+
+=== Authorative Name Server
+
+* Simple DNS setups have a single authorative serving providing records for
+  a whole domain
+* You could run multiple small zones on one server (GoDaddy, etc.)
+* A busy domain may need more than one server (primaries and secondaries)
+
+=== Hierachy is Key
+
+image::dns-heirarchy.png[]
+
+== DNS Info on Windows and Linux
+
+* Traditionally you can find your DNS server in `/etc/resolv.conf` on a *NIX
+  machine
+* `ipconfig /all` will show you your DNS server in Windows
+* This can be a good troubleshooting step
+* Remember, machines may resolve names through other means!
+* Let's take a look
+
+== DNS Servers
+
+* Keep track of: forward lookup zones, reverse lookup zones, and cached lookups.
+* Cached lookups: FQDNs that have already been resolved (speed things up)
+* Servers can be _Authoratative DNS Servers_ or _Cache-only DNS servers_
+* Forward lookup zone: Keeps track of IP addresses and FQDNs for computers in a
+  domain
+
+== DNS Record Types
+
+[.shrink]
+* _A_: Individual hosts in a domain (IPv4 address)
+* _SOA_: Start of Authority, defines the primary name server in charge of a
+  forward lookup zone.
+* _NS_: Primary name server for a domain. There can be multiple.
+* _CNAME_: Canonical name, acts like an alias.
+* _AAAA_: A records for IPv6
+* _MX_: mail exchange, used by SMTP servers to determine where to send mail
+* _SRV_: general server record for any type of service
+* _TXT_: a freemform record for anything, used by DomainKeys Identified Mail
+  (DKIM), Send Policy Framework (SPF), domain verification
+
+== Primary and Secondary Zones
+
+* Typically you have (at least) two zones
+* The primary updates from the secondary, making it highly available
+* DNS can break a lot of things if it isn't working
+* _Reverse lookup zone_ enables a system to determine a FQDN from an IP, uses
+  _PTR_ records
+
+== When do you need a DNS server?
+
+* You may not need one for a small internal network, but those machines will
+  need at least a caching DNS for internet access
+* A big internal network could benefit from an internal DNS
+* If you host a domain you will need a public DNS server (most people pay to
+  have theirs hosted)
+
+== Let's dig through NJIT's DNS!

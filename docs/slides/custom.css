@@ -20,3 +20,8 @@
 .reveal section img {
     background-color: white;
 }
+
+/* Make code blocks visible */
+pre.rouge {
+    color: black;
+}

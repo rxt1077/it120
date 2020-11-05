@@ -1,0 +1,166 @@
+= Securing TCP/IP
+
+== Origins
+
+* TCP/IP wasn't designed to be secure, it was just designed to work
+
+== Vocab
+
+[.shrink]
+* Encryption: scramble up data so it can't be read but can still be descrambled
+* Integrity: data received is the same as data sent
+* Nonrepudiation: actors can't deny that they did something
+* Authentication: verify the identity of people accessing data
+* Authorization: define permissions for an actor and enforce them
+* AAA: Authentication, Authorization, Accounting
+
+== Encryption
+
+* plaintext/cleartext: unencrypted data (doesn't have to be text)
+* cipher: how you encrypt data
+* algorithm: mathematical formula that underlies the cipher
+* let's talk: substitution (caesar), XOR,
+  https://www.storyhack.com/2016/08/22/send-a-secret-message-one-time-pad-generator-for-pen-and-paper-encryption/[
+  one time pad (OTP)]
+
+== Symmetric-Key Encryption
+
+* both sides use the same key
+* block ciphers: done in chunks
+* DES: Data Encryption Standard, old 64-bit block cypher
+* stream cipher: one bit at a time
+* RC4: Rivest cipher 4, fast free stream cipher, legacy
+* AES: Advanced Encryption Standard
+
+== Asymmetric-Key Cryptography
+
+[.shrink]
+* For symmetric, how do you get the key across?
+* Better solution public/private pairs of keys
+* If you have someone's public key, you can encrypt something only they can
+  read.
+* If you have a private key, you can decrypt things that were sent to you.
+* Most use RSA (Rivest, Shamir, and Adleman), factoring large primes
+* Secret paint mixing key exchange: https://www.youtube.com/watch?v=d_FU9tZIo10
+
+== Fun Stuff
+
+* CyberChef (Handy for CTFs): https://gchq.github.io/CyberChef/
+* GPG: https://gnupg.org/, https://www.gnupg.org/gph/en/manual/x110.html,
+  http://irtfweb.ifa.hawaii.edu/~lockhart/gpg/
+
+== Encryption and the OSI Model
+
+[.shrink]
+* L1 - No common encryption (exceptions being the bigger WAN tech, like SONET)
+* L2 - No common encryption
+* L3 - IPsec: software that encrypts the IP packet. A new outer packet
+  completely encapsulates and encrypts the inner packet. Example:
+  https://www.strongswan.org/. Cisco AnyConnect: Wraps routes using SSL
+* L4 - Neither TCP nor UDP offers any encryption methods
+* L5, 6, 7 - SSL and TLS are found here, but they don't fit cleanly into the
+  OSI model.
+
+== Integrity
+
+* Hash - a one-way function that always gives the same fixed-length result for
+  the same input.
+* Can be used to verify file integrity: md5sum
+* Collisions: when two different inputs result in the same hash
+* Can (and should) be used to store passwords
+* MD5, SHA-224, SHA-256, SHA-384, SHA-512
+
+[.columns]
+== Nonrepudiation: Digital Signatures
+
+[.column]
+[.shrink]
+* Alice sends Bob an email that proves it's from her
+* Alice takes her public key and hashes it to make is smaller
+* Alice encrypts the hash using Bob's private key
+* Alice attaches that _signature_ to the email
+* Bob decrypts the hash of Alice's public key and compares it to the public
+  key he has for Alice
+
+[.column]
+image::https://upload.wikimedia.org/wikipedia/commons/7/78/Private_key_signing.svg[]
+
+== PKI
+
+[.shrink]
+* How do you communicate with someone whose key you don't have?
+* Certificate: a public key that is _signed_ by a trusted 3rd party
+* Certificate Authorities (CA) sign certs and your browser/OS keeps a list of
+  trusted CAs.
+* You get your certs through a CA (some use domain verification through DNS)
+* This can be automated and free: https://letsencrypt.org/
+* This setup is called public-key infrastructure (PKI)
+
+== Authentication
+
+* User names and passwords are the most common
+* Multifactor authentication (MFA) / two-factor authentication (2FA) is better
+** Something you know (password)
+** Something you have (key card)
+** Something you are (biometrics)
+** Somewhere you are (location)
+** Something you do (signature)
+** Some when you are (time of day)
+
+== Authorization
+
+[.shrink]
+* Access control list (ACL): defined list of permissions that specifies what an
+  authenticated users may perform on a shared resource.
+* Mandatory access control (MAC): security model, everything has a label the
+  defines its security level.
+* Discretionary access control (DAC): an owner of a resource can assign access
+* Role-based access control (RBAC): popular for file sharing, defines a user's
+  access to a resource based on the roles the user plays in the network
+  environment.
+
+== TCP/IP Security Standards
+
+* Remember: This wasn't designed to be secure!
+
+== USER Auth
+
+[.shrink]
+* Most of this comes from the dial up era
+* Point-to-Point Protocol (PPP): enables two point-to-point devices to connect,
+  authenticate with a user name and password, and negotiate the network
+  protocol the two devices will use (almost always TCP/IP)
+* PPP used Password Authentication Protocol (PAP) or Challenge Handshake
+  Authentication Protocol (CHAP)
+* PAP is cleartext, CHAP uses hashes
+* CHAP updates periodically, MS-CHAPv2 is most commonly used (yes things still
+  use dial up)
+
+[.columns]
+== PAP vs CHAP
+
+[.column]
+image::pap.png[]
+
+[.column]
+image::chap.png[]
+
+== AAA
+
+* How do you store the user names/passwords such that _multiple_ services can
+  use them to authenticate users?
+* Authentication, Authorization, Accounting - need to be provided
+* Remote Authentication Dial-In User Service (RADIUS): most popular AAA service
+* Still used! It's how you get on NJIT WiFi
+
+== RADIUS in Action
+
+* Popular windows server: Internet Authentication Service (IAS)
+* Popular *NIX server: https://freeradius.org/[FreeRADIUS]
+* Uses UDP ports 1812, 1813, 1645, 1646
+
+== TACACS+
+
+* Terminal Access Controller Access Control System Plus
+* Cisco developed, stores ACLs for network devices (routers, switches, etc.)
+* Follows AAA principles

@@ -24,7 +24,8 @@
 * Connectionless
 * Used by DHCP
 * Network Time Protocol (NTP) and Simple Network Time Protocol (SNTP)
-* Trivial File Transfer Protocol: TFTP
+* https://github.com/rxt1077/it120/raw/master/docs/slides/tftp.pcap[Trivial File
+  Transfer Protocol: TFTP]
 
 == ICMP
 

@@ -1,0 +1,69 @@
+= Lab 3
+
+TLS is used to encapsulate HTTP, making HTTPS. The goal of HTTPS is to prevent
+web traffic from passing over the network unencrypted. In this lab we will look
+at encrypted HTTPS packets via Wireshark and then set up the Fiddler web proxy
+to transparently decrypt HTTPS traffic and view the results.
+
+== Using Wireshark to View Enrypted Web Traffic
+
+Start up Wireshark, select the interface that you are using (Wi-Fi in my case),
+and put in a capture filter for port 443:
+
+image::capture-filter.png[]
+
+Now with Wireshark open and capturing packets, open a web browser and go to
+https://www.google.com. Take a look at the protocols you captured. Analyze a
+few packets and answer the first two questions at the bottom of the lab.
+
+When you are done, you can close Wireshark without saving.
+
+== Using Fiddler to Unencrypt HTTPS Traffic
+
+Download and install Fiddler, you can find it here:
+https://www.telerik.com/download/fiddler-everywhere
+
+When Fiddler first starts up, it will ask you to sign in. Feel free to use your
+NJIT Google address. It will then make itself the system proxy (meaning most
+web browsers on the OS will use it by default) and begin capturing traffic. You
+can toggle the Live Traffic capture at the top of the screen.
+
+The real magic of Fiddler is that when you are acting as a proxy, you can
+create an HTTPS link between you and the client (assuming they trust your
+certificate) and then unencrypt the HTTPS traffic that the client is sending
+through you. This can be _very_ useful for debugging web applications.
+
+To set this up, open the Settings (top right) and click on `Trust Root
+Certificate`. You will need admin privileges. Basically this is telling your OS
+that when negotiating a TLS connection, it should consider anything signed by
+that certificate to be perfectly valid. Finally, click on `Capture HTTPS
+Traffic` and hit `Save`.
+
+Now if you turn on Live Capture and visit https://www.google.com again in a web
+browser you should see a lot more information. Feel free to turn off Live
+Capture after you have made that request, there can be a lot of background
+traffic.
+
+See if you can find your traffic with https://www.google.com and use it to
+answer the last few questions in the lab.
+
+Once you are done you can close Fiddler. If you want to remove Fiddler's
+certificate,
+https://docs.telerik.com/fiddler-everywhere/knowledge-base/how-to-remove-fiddler-everywhere-certificate-manually[
+there are directions here.]
+
+== Questions
+
+[qanda]
+Can you see the HTTP traffic in encrypted TLS packets as captured by Wireshark?::
+    {empty}
+What information _can_ you see about this traffic?::
+    {empty}
+With Fiddler, can you see the HTTP traffic in an encrypted TLS connection?::
+    {empty}
+What information can you see with Fiddler that you can't with Wireshark?::
+    {empty}
+What are the security implications of trusting insecure certificates?::
+    {empty}
+What is the difference between a packet sniffer and a proxy?::
+    {empty}
