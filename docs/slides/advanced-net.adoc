@@ -1,0 +1,188 @@
+= Advanced Networking Devices
+
+* Describe the features and functions of VPNs
+* Define the capabilities and management of managed switches
+* Configure and deploy VLANs
+* Implement advanced switch features
+
+== Virtual Private Networks (VPNs)
+
+* Let's use the Internet to link up our _private_ networks!
+* Encrypted tunnels from A -> B where A and B are _endpoints_
+* Requires a special setup to make both sides _look_ like they are on the
+  same network
+* A VPN _tunnel_ is like a virtual cable
+
+=== Point-to-Point Tunneling Protocol (PPTP)
+
+* Based on PPP (remember for dialup auth?)
+* Uses Routing and Remote Access Service (RRAS) on a Windows machine
+* Most OSes have some sort of PPTP VPN option
+
+=== Layer 2 Tunneling Protocol (L2TP)
+
+* Borrowed from PPTP and Cisco L2F
+* Endpoint is now a VPN-capabe route: _VPN concentrator_
+* Often used for permanent links
+* Generally uses IPsec for encryption
+* Has host-to-site and site-to-site options
+* Supported by most OSes
+
+=== SSL VPNs
+
+* You can run everything through a web portal connected via HTTPS (email,
+  files, etc.) 
+* The growth of the web app has made this a viable option
+* Can also use an SSL tunnel (that's what NJIT does), but you need a special
+  client
+
+
+=== Datagram TLS (DTLS) VPNs
+
+* Uses UDP over TCP for better responsiveness
+* Cisco AnyConnect DTLS VPN is a common option
+
+=== Dynamic Multipoint VPN
+
+* Remove central server bottleneck
+* Various points can connect directly to each other and DMVPN will coordinate
+* Cisco DMVPN is a common solution
+
+=== Alternative VPNs
+
+* SSH
+* OpenVPN
+* IPsec solutions (Cisco IOS Easy VPN)
+* Generic Routing Encapsulation (GRE) with IPsec (can even work with multicast)
+
+== Switch Management
+
+* Managed switches have more features and can be configured
+* Connection options: plug into the serial interface, use ssh, use a switches
+  web interface
+
+=== Serial Interface
+
+* Requires physical access to the console port
+* Typically an RJ45 to USB serial cable (baby blue)
+
+
+=== SSH
+
+* Requires SSH to be turned on, the switch to have an accessible IP, and the
+  password to be configured.
+* Can use any SSH client: OpenSSH, Putty, MobaXTerm, etc.
+
+=== Web Interface
+
+* Requires the web interface to be turned on the switch to have an accessible IP,
+  and the password to be configured.
+* All you need is a web browser
+
+== Virtual LANs (VLANs)
+
+* Enables you to segment a physical network into multiple discreet networks
+  without having to add additional hardware
+* Use all your ports the way _you_ want to!
+* Let's draw some common use cases
+
+=== Trunking
+
+* Transferring VLAN traffic between two or more switches
+* _trunk ports_ carry all traffic regardless of VLAN number
+* The VLAN designation for a trunk ports is its _native VLAN_
+
+=== Tagging
+
+[.shrink]
+* https://en.wikipedia.org/wiki/IEEE_802.1Q[tags are added to frames to
+  determine which VLAN they are part of]
+* _access ports_ are regular ports that have been configured as part of a VLAN,
+  they tag automatically for clients
+* _access ports_ have tags stripped off when _delivering_ traffic
+* _trunked ports_ can strip native tags off when delivering traffic
+* https://en.wikipedia.org/wiki/VLAN_hopping[Improperly configured native VLANs
+  can lead to double tagging issues]
+
+=== VLAN Trunking Protocol
+
+* VLAN switches can be a pain to update, VTP allows you to set up multiple
+  switches at the same time.
+
+=== InterVLAN Routing
+
+image::intervlan.png[width=50%]
+
+* Can now be done on a routing switch
+
+=== DHCP and VLANs
+
+* DHCP relay (relay agent) will pass DHCP messages across router interfaces
+* Lets you use a single DHCP server across multiple VLANs
+
+== Multilayer Switches
+
+* At this point you may have noticed we are mixing L2 and L3 a bunch
+* Multilayer switches let you configure whether ports work at L2 or L3
+* Very useful for: load balancing, quality of service, port bonding, and
+  network protection.
+
+=== Load Balancing
+
+* making a bunch of servers look like a single server
+* popular services require a _server cluster_ to meet their needs
+
+=== DNS Load Balancing
+
+* multiple A records
+* DNS server cycles A records when providing answers
+
+=== Content Switch
+
+* Examine packets at L7 (application)
+* Can help with load balancing, split HTTP and HTTPS traffic
+* Can even get/set cookies on client
+
+=== QoS and Traffic Shaping
+
+* Quality of Service: control the bandwidth
+* Traffic shaping: control the flow of packets
+* https://en.wikipedia.org/wiki/Token_bucket[Let's talk about Token Bucket]
+
+=== Port Bonding
+
+* Putting a bunch of interfaces together to achieve greater speeds and
+  redundancy
+* AKA: link aggregation, NIC bonding, NIC teaming, port aggregation
+
+=== Network Protection
+
+* intrusion detection system (IDS): application that inspects packets looking
+  for active intrusion
+* https://www.snort.org/[Snort],
+  https://resources.infosecinstitute.com/topic/snort-rules-workshop-part-one/[Basic
+  Snort Rules Syntax and Usage]
+* intrusion prevention system (IPS): sits in the flow of packets and can _stop_
+  attacks
+
+=== Port Mirroring
+
+* Copy data from any or all physical ports on a switch to a single physical port
+* local or remote: local you have to plug in to the switch, remote has another
+  method of access
+
+=== Proxy Serving
+
+* forward proxy server: acts on behalf of clients, getting and returning
+  information
+* reverse proxy server: acts on behalf of the servers, can be used for load
+  balancing
+
+=== AAA
+
+* _port authentication_: typically done via RADIUS supported by many switches
+  most WAPs
+* Can be tough to configure, common issues:
+** Failing to point the switch to the correct RADIUS/TACAS+ server
+** Improperly configuring the correct authentication method for the switch
+** Failing to give the switch proper security policies on the server

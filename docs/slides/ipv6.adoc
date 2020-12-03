@@ -1,0 +1,86 @@
+= IPv6
+
+* We are out of IPv4 addresses!
+* IPv4 routing is a PItB!
+* What's the solution? IPv6
+* (What happened to IPv5?)
+
+== IPv6 Address Notation
+
+* 128 bits
+* 16 bit segments, in hex, separated by colons: `2001:0000:0000:3210:0800:200c:00cf:1234`
+* _network prefix_ first 64 bits (used for routing)
+* _interface ID_ last 64 bits
+* _global routing prefix_ first 48 bits
+* _subnet id_ 16 bits after _global routing prefix_
+
+== Compressing IPv6 Addresses
+
+* Drop leading zeros: `2001:0:0:3210:800:200c:cf:1234`
+* Use the `::` to represent _a_ group of zeros: `2001::3210:800:200c:cf:1234`
+* You can only use the `::` once!
+
+== IPv6 Address Notation (continued)
+
+* Similar to CIDR you use the `/` for specifying a prefix length: `2001::3210:800:200c:cf:1234/64`
+* `::1` - the IPv6 loopback address
+
+== Link-Local Address
+
+* Hosts have multiple IPv6 address and _one_ of them is a link-local address
+* `fe80::/10` + random bits
+* If you don't need an Internet connection, link-local's got your back
+* Handles all your local network needs (forget old school configuring static IPs)
+
+== IPv6 Prefix Lengths
+
+* Big ISPs get /48 prefixes
+* Those ISPs then use 16 bits for subnetting and give /64 interface IDs to end users
+* Link-local also uses a prefix length of /64
+
+== Unicast, Multicast, and Anycast
+
+* A _unicast address_ is a unique address exclusive to that system. Link-local is a
+  _unicast address_.
+* A _multicast address_ is a set of reserved addresses designed to go only to certain
+  systems. `ff02::1` - all nodes, `ff02::2` - all routers,
+  `ff02::1:ffxx:xxxx` solicited-node
+* A _anycast address_ goes to the closest node that wants to receive that traffic
+
+== Global Unicast Address
+
+* If you want the Internet to be able to talk to you, you need a global address
+* You solicit a router (`ff02::2`) and your router gives you the prefix
+* You then use 64 random bits for the end
+* Now _anyone_ can connect to you
+* On the router-side, prefix delegation is (DHCP-PD) is what your router
+  typically uses to get the prefix from your ISP
+
+== Aggregation
+
+* At the highest level, IPv4 routes are a major pain. A routing table in a Tier
+  1 router may have around 750,000 routes
+* IPv6 uses aggregation to say that each router handles a "chunk" of the
+  address space
+
+== Aggregation in IPv4 (this is never going to happen)
+
+image::ipv4-aggregation.png[]
+
+== Aggregation in IPv6 (required by design)
+
+image::ipv6-aggregation.png[]
+
+== Using IPv6
+
+* Neighbor Discovery Protocol (NDP)
+* Neighbor solicitation/advertisement: multicast to all IPv6 capable machines
+* Router solicitation/advertisement: routers keep track of prefix changes
+
+== What changes?
+
+* You probably don't need DHCP (although there is DHCPv6)
+* You need to be prepared to connect _directly_ to the Internet
+* Your DNS queries will change (AAAA instead of A, etc.)
+* There are fewer games you have to play with port forwarding, UPnP, etc.
+* NAT isn't needed

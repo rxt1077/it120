@@ -164,3 +164,99 @@ image::chap.png[]
 * Terminal Access Controller Access Control System Plus
 * Cisco developed, stores ACLs for network devices (routers, switches, etc.)
 * Follows AAA principles
+
+== Kerberos
+
+* Authentication protocol that is _not_ connected to PPP
+* Many-to-one auth tech behind Microsoft Windows Domains
+* Key Distribution Center (KDC): cornerstone of Kerberos, has two components
+  Authentication Server (AS) and Ticket-Granting Service (TGS)
+
+=== Windows Kerberos Authentication
+
+[.shrink]
+. Client sends has of user name and password to AS (Domain Controller)
+. AS compares to its own hash and returns a Ticket Granting Ticket (TGT) if
+  they match (lifespan of ten hours in Windows)
+. Client is authenticated but not authorized
+. Client sends the timestamped TGT to the TGS for authorization
+. TGS responds with a timestamped service ticket (token or access token)
+. Client uses token to access any single resource on the domain
+
+[.columns]
+=== Pros/Cons
+
+[.column]
+* Tokens last long enough to get work done
+* Tokens don't last long enough to get cracked
+
+[.column]
+* Single point of failure
+* Requires time sync
+
+== Encryption Standards
+
+* A lot of protocols were updated to include encryption
+* Often they will use the old protocol and add the word "Secure" in front of it
+
+== SSH
+
+[.shrink]
+* Telnet is plaintext
+* SSH uses encryption and listens on port 22
+* SSH uses PKI with RSA keys
+* Server and client exchange public keys
+* You have to trust or verify the public key of a server the first time you
+  connect
+* You ALSO need a user name and password or public key auth to verify the user
+* Let's talk about clients: PuTTY, MobaXTerm, OpenSSH
+* Let's talk about public key auth via authorized_keys
+
+== SSH Tunneling
+
+* SSH can tunnel via port-forwarding
+* SSH can also tunnel via a SOCKs proxy
+* Let's demo both of these
+
+==  SSL/TLS
+
+* Secure Sockets Layer (SSL): designed by Netscape to secure web traffic
+* Transport Layer Security (TLS): upgrade to SSL, can work with more protocols
+
+== IPsec
+
+* One way to establish VPNs
+* Transport mode: only encrypt payload of IP packet
+* Tunnel mode: encrypt entire IP packet
+
+== HTTPS
+
+* If you have a good certificate exchange you can establish a TLS connection
+  with an HTTP server over port 443.
+* Be aware that certificates can be invalid, out of date, or revoked
+
+== SCP
+
+* Secure Copy Protocol: popular was to transfer files via SSH
+
+== SFTP
+
+* SSH File Transfer Protocol: replaces FTP, allows you to list files and do the
+  things FTP can do that SCP can't.
+
+== SNMP
+
+* Simple Network Management Protocol: gives you information about your network
+infrastructure (CPU usage, network usage, etc.)
+* SNMPv3 is standard and uses encryption (earlier versions did not)
+
+== LDAP
+
+* Lightweight Directory Access Protocol
+* Windows Active Directory is a database that can be accessed via LDAP
+* Currently updated to use encryption
+
+== NTP
+
+* Network Time Protocol: give the current time to a client
+* Encryption not really necessary, but this protocol is necessary for Kerberos.
